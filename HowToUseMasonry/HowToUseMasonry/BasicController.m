@@ -23,9 +23,15 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self test1];
     
-    WS(ws);  //避免循环引用
+//    [self test2];
+    
+}
 
+- (void)test1 {
+    WS(ws);  //避免循环引用
+    
     UIView *redView = [[UIView alloc] init];
     redView.backgroundColor = [UIColor redColor];
     [self.view addSubview:redView];
@@ -53,61 +59,61 @@
         make.top.equalTo(greenView.mas_bottom).offset(20);
         make.width.mas_equalTo(greenView);
         make.centerX.equalTo(greenView);
-//        make.bottom.equalTo(redView).offset(-20);
+        //        make.bottom.equalTo(redView).offset(-20);
     }];
     
     [redView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(label).offset(20);
     }];
+}
+
+- (void)test2 {
+    WS(ws);  //避免循环引用
     
-//    return;
+    //屏幕中间放一个边长200 * 200的红色View
+    UIView *redView = [[UIView alloc] init];
+    redView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:redView];
+    //再对一个View布局之前, 一定要将这个View add到一个superView上
+    [redView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(300, 300));
+        make.center.equalTo(ws.view);
+    }];
     
-//    //屏幕中间放一个边长200 * 200的红色View
-//    UIView *redView = [[UIView alloc] init];
-//    redView.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:redView];
-//    //再对一个View布局之前, 一定要将这个View add到一个superView上
-//    [redView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(300, 300));
-//        make.center.equalTo(ws.view);
-//    }];
-//    
-//    //红色VIew里放一个内边距上左下右为10, 20 , 20, 40的蓝色View
-//    UIView *blueView = [[UIView alloc] init];
-//    blueView.backgroundColor = [UIColor blueColor];
-//    [redView addSubview:blueView];
-//    [blueView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(redView).insets(UIEdgeInsetsMake(10, 20, 30, 40));
-//    }];
-//    
-//    //在蓝色View里面放2个Label, 距离左边20, 右边最少40, 非固定宽度
-//    for (NSInteger i = 0; i < 2; i++) {
-//        UILabel *label1 = [[UILabel alloc] init];
-//        label1.backgroundColor = [UIColor purpleColor];
-//        if (i == 0) {
-//            label1.text = @"测试一下啊测试一下啊测试一下啊测试一下啊测试一下啊";
-//        } else {
-//            label1.text = @"测试一下啊";
-//        }
-//        [blueView addSubview:label1];
-//        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(blueView).offset(20+i*25);
-//            make.left.equalTo(blueView).offset(20);
-//            make.right.lessThanOrEqualTo(blueView).offset(-40);
-//        }];
-//    }
-//    
-//    UIView *yellowView = [[UIView alloc] init];
-//    yellowView.backgroundColor = [UIColor yellowColor];
-//    [blueView addSubview:yellowView];
-//    [yellowView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        //直接mas_equalTo(20)相当于针对yellowView的父视图布局
-//        make.bottom.left.right.mas_equalTo(20);
-//        //这个multipliedBy 比例仅针对 同一个View的比例, 下面代码是指 height = width * 0.5;
-//        make.height.mas_equalTo(yellowView.mas_width).multipliedBy(0.5);
-//    }];
+    //红色VIew里放一个内边距上左下右为10, 20 , 20, 40的蓝色View
+    UIView *blueView = [[UIView alloc] init];
+    blueView.backgroundColor = [UIColor blueColor];
+    [redView addSubview:blueView];
+    [blueView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(redView).insets(UIEdgeInsetsMake(10, 20, 30, 40));
+    }];
     
+    //在蓝色View里面放2个Label, 距离左边20, 右边最少40, 非固定宽度
+    for (NSInteger i = 0; i < 2; i++) {
+        UILabel *label1 = [[UILabel alloc] init];
+        label1.backgroundColor = [UIColor purpleColor];
+        if (i == 0) {
+            label1.text = @"测试一下啊测试一下啊测试一下啊测试一下啊测试一下啊";
+        } else {
+            label1.text = @"测试一下啊";
+        }
+        [blueView addSubview:label1];
+        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(blueView).offset(20+i*25);
+            make.left.equalTo(blueView).offset(20);
+            make.right.lessThanOrEqualTo(blueView).offset(-40);
+        }];
+    }
     
+    UIView *yellowView = [[UIView alloc] init];
+    yellowView.backgroundColor = [UIColor yellowColor];
+    [blueView addSubview:yellowView];
+    [yellowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        //直接mas_equalTo(20)相当于针对yellowView的父视图布局
+        make.bottom.left.right.mas_equalTo(20);
+        //这个multipliedBy 比例仅针对 同一个View的比例, 下面代码是指 height = width * 0.5;
+        make.height.mas_equalTo(yellowView.mas_width).multipliedBy(0.5);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
