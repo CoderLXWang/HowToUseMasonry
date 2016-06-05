@@ -19,7 +19,7 @@
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray *titleArray;
 
 @end
 
@@ -47,18 +47,18 @@
     [itemArray addObject:@"ScrollView"];
     [itemArray addObject:@"TableView"];
     
-    self.dataArray = [itemArray copy];
+    self.titleArray = [itemArray copy];
     [self.view addSubview:self.tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataArray.count;
+    return self.titleArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = self.dataArray[indexPath.row];
+    cell.textLabel.text = self.titleArray[indexPath.row];
     return cell;
 }
 
@@ -67,35 +67,35 @@
         case 0:
         {
             BasicController *basicVC = [BasicController new];
-            basicVC.title = @"基本使用";
+            basicVC.title = self.titleArray[indexPath.row];
             [self.navigationController pushViewController:basicVC animated:YES];
         }
             break;
         case 1:
         {
             EqualMarginController *equalVC = [EqualMarginController new];
-            equalVC.title = @"等间隙布局";
+            equalVC.title = self.titleArray[indexPath.row];
             [self.navigationController pushViewController:equalVC animated:YES];
         }
             break;
         case 2:
         {
             UpdateConstraintsController *updateVC = [UpdateConstraintsController new];
-            updateVC.title = @"更新约束动画";
+            updateVC.title = self.titleArray[indexPath.row];
             [self.navigationController pushViewController:updateVC animated:YES];
         }
             break;
         case 3:
         {
             ScrollViewController *scrollViewVC = [ScrollViewController new];
-            scrollViewVC.title = @"ScrollView";
+            scrollViewVC.title = self.titleArray[indexPath.row];
             [self.navigationController pushViewController:scrollViewVC animated:YES];
         }
             break;
         case 4:
         {
             TableViewController *tableViewVC = [TableViewController new];
-            tableViewVC.title = @"TableView";
+            tableViewVC.title = self.titleArray[indexPath.row];
             [self.navigationController pushViewController:tableViewVC animated:YES];
         }
             break;
